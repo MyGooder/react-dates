@@ -1,6 +1,6 @@
 {
-  "name": "react-dates",
-  "version": "4.3.3",
+  "name": "@mygooder/react-dates",
+  "version": "4.3.3-0.0.1",
   "description": "A responsive and accessible date range picker component built with React",
   "main": "index.js",
   "scripts": {
@@ -38,14 +38,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/airbnb/react-dates.git"
+    "url": "git+https://github.com/mygooder/react-dates.git"
   },
   "author": "Maja Wichrowska <maja.wichrowska@airbnb.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/airbnb/react-dates/issues"
+    "url": "https://github.com/mygooder/react-dates/issues"
   },
-  "homepage": "https://github.com/airbnb/react-dates#readme",
+  "homepage": "https://github.com/mygooder/react-dates#readme",
   "devDependencies": {
     "@kadira/react-storybook-addon-info": "^3.3.0",
     "@kadira/storybook": "^2.35.2",
@@ -96,13 +96,14 @@
   "dependencies": {
     "array-includes": "^3.0.2",
     "classnames": "^2.2.5",
+    "prop-types": "^15.6.0",
     "react-moment-proptypes": "^1.2.1",
     "react-portal": "^3.0.0"
   },
   "peerDependencies": {
     "moment": "2.10 - 2.14 || ^2.15.1",
     "react": ">=0.14",
-    "react-dom": ">=0.14",
-    "react-addons-shallow-compare": ">=0.14"
+    "react-addons-shallow-compare": ">=0.14",
+    "react-dom": ">=0.14"
   }
 }
