@@ -56,6 +56,8 @@ const propTypes = forbidExtraProps({
   daySize: nonNegativeInteger,
   isRTL: PropTypes.bool,
   verticalHeight: nonNegativeInteger,
+  noBorder: PropTypes.bool,
+  transitionDuration: nonNegativeInteger,
 
   // navigation props
   navPrev: PropTypes.node,
@@ -84,6 +86,7 @@ const propTypes = forbidExtraProps({
   monthFormat: PropTypes.string,
   weekDayFormat: PropTypes.string,
   phrases: PropTypes.shape(getPhrasePropTypes(DayPickerPhrases)),
+  dayAriaLabelFormat: PropTypes.string,
 });
 
 export const defaultProps = {
@@ -101,6 +104,8 @@ export const defaultProps = {
   daySize: DAY_SIZE,
   isRTL: false,
   verticalHeight: null,
+  noBorder: false,
+  transitionDuration: undefined,
 
   // navigation props
   navPrev: null,
@@ -686,6 +691,9 @@ class DayPicker extends React.Component {
       styles,
       phrases,
       verticalHeight,
+      dayAriaLabelFormat,
+      noBorder,
+      transitionDuration,
     } = this.props;
 
     const numOfWeekHeaders = this.isVertical() ? 1 : numberOfMonths;
@@ -746,6 +754,7 @@ class DayPicker extends React.Component {
           this.isVertical() && withPortal && styles.DayPicker_portal__vertical,
           dayPickerStyle,
           !hasSetHeight && styles.DayPicker__hidden,
+          !noBorder && styles.DayPicker__withBorder,
         )}
       >
         <OutsideClickHandler onOutsideClick={onOutsideClick}>
@@ -778,7 +787,6 @@ class DayPicker extends React.Component {
                 this.isVertical() && styles.DayPicker_transitionContainer__vertical,
                 verticalScrollable && styles.DayPicker_transitionContainer__verticalScrollable,
                 transitionContainerStyle,
-
               )}
               ref={this.setTransitionContainerRef}
             >
@@ -805,6 +813,8 @@ class DayPicker extends React.Component {
                 focusedDate={focusedDate}
                 phrases={phrases}
                 isRTL={isRTL}
+                dayAriaLabelFormat={dayAriaLabelFormat}
+                transitionDuration={transitionDuration}
               />
               {verticalScrollable && this.renderNavigation()}
             </div>
@@ -841,8 +851,6 @@ export default withStyles(({ reactDates: { color, zIndex } }) => ({
 
   DayPicker__horizontal: {
     background: color.background,
-    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.07)',
-    borderRadius: 3,
   },
 
   DayPicker__verticalScrollable: {
@@ -851,6 +859,11 @@ export default withStyles(({ reactDates: { color, zIndex } }) => ({
 
   DayPicker__hidden: {
     visibility: 'hidden',
+  },
+
+  DayPicker__withBorder: {
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.07)',
+    borderRadius: 3,
   },
 
   DayPicker_portal__horizontal: {

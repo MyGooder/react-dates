@@ -38,6 +38,8 @@ export default {
   customInputIcon: PropTypes.node,
   customArrowIcon: PropTypes.node,
   customCloseIcon: PropTypes.node,
+  noBorder: PropTypes.bool,
+  block: PropTypes.bool,
 
   // calendar presentation and interaction related props
   renderMonth: PropTypes.func,
@@ -57,6 +59,7 @@ export default {
   renderCalendarInfo: PropTypes.func,
   hideKeyboardShortcutsPanel: PropTypes.bool,
   verticalHeight: nonNegativeInteger,
+  transitionDuration: nonNegativeInteger,
 
   // navigation related props
   navPrev: PropTypes.node,

@@ -46,9 +46,7 @@ const defaultProps = {
   focusedInput: null,
 
   // input related props
-  startDateId: START_DATE,
   startDatePlaceholderText: 'Start Date',
-  endDateId: END_DATE,
   endDatePlaceholderText: 'End Date',
   disabled: false,
   required: false,
@@ -60,6 +58,8 @@ const defaultProps = {
   customInputIcon: null,
   customArrowIcon: null,
   customCloseIcon: null,
+  noBorder: false,
+  block: false,
 
   // calendar presentation and interaction related props
   renderMonth: null,
@@ -79,6 +79,7 @@ const defaultProps = {
   isRTL: false,
   firstDayOfWeek: null,
   verticalHeight: null,
+  transitionDuration: undefined,
 
   // navigation related props
   navPrev: null,
@@ -322,6 +323,7 @@ class DateRangePicker extends React.Component {
       weekDayFormat,
       styles,
       verticalHeight,
+      transitionDuration,
     } = this.props;
     const { dayPickerContainerStyles, isDayPickerFocused, showKeyboardShortcuts } = this.state;
 
@@ -389,6 +391,7 @@ class DateRangePicker extends React.Component {
           firstDayOfWeek={firstDayOfWeek}
           weekDayFormat={weekDayFormat}
           verticalHeight={verticalHeight}
+          transitionDuration={transitionDuration}
         />
 
         {withFullScreenPortal && (
@@ -436,6 +439,8 @@ class DateRangePicker extends React.Component {
       onDatesChange,
       onClose,
       isRTL,
+      noBorder,
+      block,
       styles,
     } = this.props;
 
@@ -444,7 +449,12 @@ class DateRangePicker extends React.Component {
     const onOutsideClick = (!withPortal && !withFullScreenPortal) ? this.onOutsideClick : undefined;
 
     return (
-      <div {...css(styles.DateRangePicker)}>
+      <div
+        {...css(
+          styles.DateRangePicker,
+          block && styles.DateRangePicker__block,
+        )}
+      >
         <OutsideClickHandler onOutsideClick={onOutsideClick}>
           <DateRangePickerInputController
             startDate={startDate}
@@ -481,6 +491,8 @@ class DateRangePicker extends React.Component {
             screenReaderMessage={screenReaderInputMessage}
             isFocused={isDateRangePickerInputFocused}
             isRTL={isRTL}
+            noBorder={noBorder}
+            block={block}
           />
 
           {this.maybeRenderDayPickerWithPortal()}
@@ -498,6 +510,10 @@ export default withStyles(({ reactDates: { color, zIndex, spacing } }) => ({
   DateRangePicker: {
     position: 'relative',
     display: 'inline-block',
+  },
+
+  DateRangePicker__block: {
+    display: 'block',
   },
 
   DateRangePicker_picker: {

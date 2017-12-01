@@ -54,6 +54,8 @@ const defaultProps = {
   inputIconPosition: ICON_BEFORE_POSITION,
   customInputIcon: null,
   customCloseIcon: null,
+  noBorder: false,
+  block: false,
 
   // calendar presentation and interaction related props
   orientation: HORIZONTAL_ORIENTATION,
@@ -72,6 +74,7 @@ const defaultProps = {
   daySize: DAY_SIZE,
   isRTL: false,
   verticalHeight: null,
+  transitionDuration: undefined,
 
   // navigation related props
   navPrev: null,
@@ -357,6 +360,7 @@ class SingleDatePicker extends React.Component {
       weekDayFormat,
       styles,
       verticalHeight,
+      transitionDuration,
     } = this.props;
     const { dayPickerContainerStyles, isDayPickerFocused, showKeyboardShortcuts } = this.state;
 
@@ -414,6 +418,7 @@ class SingleDatePicker extends React.Component {
           firstDayOfWeek={firstDayOfWeek}
           weekDayFormat={weekDayFormat}
           verticalHeight={verticalHeight}
+          transitionDuration={transitionDuration}
         />
 
         {withFullScreenPortal && (
@@ -452,6 +457,8 @@ class SingleDatePicker extends React.Component {
       withFullScreenPortal,
       screenReaderInputMessage,
       isRTL,
+      noBorder,
+      block,
       styles,
     } = this.props;
 
@@ -462,7 +469,12 @@ class SingleDatePicker extends React.Component {
     const onOutsideClick = (!withPortal && !withFullScreenPortal) ? this.onClearFocus : undefined;
 
     return (
-      <div {...css(styles.SingleDatePicker)}>
+      <div
+        {...css(
+          styles.SingleDatePicker,
+          block && styles.SingleDatePicker__block,
+        )}
+      >
         <OutsideClickHandler onOutsideClick={onOutsideClick}>
           <SingleDatePickerInput
             id={id}
@@ -490,6 +502,8 @@ class SingleDatePicker extends React.Component {
             screenReaderMessage={screenReaderInputMessage}
             phrases={phrases}
             isRTL={isRTL}
+            noBorder={noBorder}
+            block={block}
           />
 
           {this.maybeRenderDayPickerWithPortal()}
@@ -507,6 +521,10 @@ export default withStyles(({ reactDates: { color, spacing, zIndex } }) => ({
   SingleDatePicker: {
     position: 'relative',
     display: 'inline-block',
+  },
+
+  SingleDatePicker__block: {
+    display: 'block',
   },
 
   SingleDatePicker_picker: {

@@ -66,7 +66,7 @@ Create a CSS file with the contents of `require.resolve('react-dates/lib/css/_da
 To see this in action, you can check out https://github.com/majapw/react-dates-demo which adds `react-dates` on top of a simple `create-react-app` setup.
 
 #### Overriding styles
-Right now, the easiest way to tweak `react-dates` to your heart's contents is to create another stylesheet to override the default react-dates styles. For example, you could create a file named `react_dates_overrides.css` with the following contents:
+Right now, the easiest way to tweak `react-dates` to your heart's content is to create another stylesheet to override the default react-dates styles. For example, you could create a file named `react_dates_overrides.css` with the following contents:
 
 ```css
 .CalendarDay__highlighted_calendar {
@@ -126,6 +126,8 @@ showDefaultInputIcon: PropTypes.bool,
 customInputIcon: PropTypes.node,
 customArrowIcon: PropTypes.node,
 customCloseIcon: PropTypes.node,
+noBorder: PropTypes.bool,
+block: PropTypes.bool,
 
 // calendar presentation and interaction related props
 renderMonth: PropTypes.func,
@@ -150,6 +152,7 @@ navNext: PropTypes.node,
 onPrevMonthClick: PropTypes.func,
 onNextMonthClick: PropTypes.func,
 onClose: PropTypes.func,
+transitionDuration: nonNegativeInteger, // milliseconds
 
 // day presentation and interaction related props
 renderDay: PropTypes.func,
@@ -196,6 +199,8 @@ showClearDate: PropTypes.bool,
 customCloseIcon: PropTypes.node,
 showDefaultInputIcon: PropTypes.bool,
 customInputIcon: PropTypes.node,
+noBorder: PropTypes.bool,
+block: PropTypes.bool,
 
 // calendar presentation and interaction related props
 renderMonth: PropTypes.func,
@@ -220,6 +225,7 @@ navNext: PropTypes.node,
 onPrevMonthClick: PropTypes.func,
 onNextMonthClick: PropTypes.func,
 onClose: PropTypes.func,
+transitionDuration: nonNegativeInteger, // milliseconds
 
 // day presentation and interaction related props
 renderDay: PropTypes.func,
@@ -262,12 +268,14 @@ The following is a list of other *OPTIONAL* props you may provide to the `DayPic
   renderCalendarInfo: PropTypes.func,
   onOutsideClick: PropTypes.func,
   keepOpenOnDateSelect: PropTypes.bool,
+  noBorder: PropTypes.bool,
 
   // navigation related props
   navPrev: PropTypes.node,
   navNext: PropTypes.node,
   onPrevMonthClick: PropTypes.func,
   onNextMonthClick: PropTypes.func,
+  transitionDuration: nonNegativeInteger, // milliseconds
 
   // day presentation and interaction related props
   renderDay: PropTypes.func,

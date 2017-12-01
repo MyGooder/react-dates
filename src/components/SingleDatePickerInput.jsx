@@ -34,6 +34,9 @@ const propTypes = forbidExtraProps({
   inputIconPosition: IconPositionShape,
   customInputIcon: PropTypes.node,
   isRTL: PropTypes.bool,
+  noBorder: PropTypes.bool,
+  block: PropTypes.bool,
+
   onChange: PropTypes.func,
   onClearDate: PropTypes.func,
   onFocus: PropTypes.func,
@@ -63,6 +66,8 @@ const defaultProps = {
   customCloseIcon: null,
   customInputIcon: null,
   isRTL: false,
+  noBorder: false,
+  block: false,
 
   onChange() {},
   onClearDate() {},
@@ -102,6 +107,8 @@ function SingleDatePickerInput({
   customInputIcon,
   openDirection,
   isRTL,
+  noBorder,
+  block,
   styles,
 }) {
   const calendarIcon = customInputIcon || (
@@ -130,6 +137,9 @@ function SingleDatePickerInput({
         styles.SingleDatePickerInput,
         disabled && styles.SingleDatePickerInput__disabled,
         isRTL && styles.SingleDatePickerInput__rtl,
+        !noBorder && styles.SingleDatePickerInput__withBorder,
+        block && styles.SingleDatePickerInput__block,
+        showClearDate && styles.SingleDatePickerInput__showClearDate,
       )}
     >
       {inputIconPosition === ICON_BEFORE_POSITION && inputIcon}
@@ -158,6 +168,7 @@ function SingleDatePickerInput({
         <button
           {...css(
             styles.SingleDatePickerInput_clearDate,
+            !customCloseIcon && styles.SingleDatePickerInput_clearDate__default,
             !displayValue && styles.SingleDatePickerInput_clearDate__hide,
           )}
           type="button"
@@ -182,7 +193,11 @@ SingleDatePickerInput.defaultProps = defaultProps;
 
 export default withStyles(({ reactDates: { color } }) => ({
   SingleDatePickerInput: {
+    display: 'inline-block',
     backgroundColor: color.background,
+  },
+
+  SingleDatePickerInput__withBorder: {
     border: `1px solid ${color.core.border}`,
   },
 
@@ -194,6 +209,14 @@ export default withStyles(({ reactDates: { color } }) => ({
     backgroundColor: color.disabled,
   },
 
+  SingleDatePickerInput__block: {
+    display: 'block',
+  },
+
+  SingleDatePickerInput__showClearDate: {
+    paddingRight: 30,
+  },
+
   SingleDatePickerInput_clearDate: {
     background: 'none',
     border: 0,
@@ -203,11 +226,15 @@ export default withStyles(({ reactDates: { color } }) => ({
     overflow: 'visible',
 
     cursor: 'pointer',
-    display: 'inline-block',
-    verticalAlign: 'middle',
     padding: 10,
     margin: '0 10px 0 5px',
+    position: 'absolute',
+    right: 0,
+    top: '50%',
+    transform: 'translateY(-50%)',
+  },
 
+  SingleDatePickerInput_clearDate__default: {
     ':focus': {
       background: color.core.border,
       borderRadius: '50%',

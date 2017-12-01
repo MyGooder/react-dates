@@ -31,6 +31,8 @@ export default {
   showDefaultInputIcon: PropTypes.bool,
   inputIconPosition: IconPositionShape,
   customInputIcon: PropTypes.node,
+  noBorder: PropTypes.bool,
+  block: PropTypes.bool,
 
   // calendar presentation and interaction related props
   renderMonth: PropTypes.func,
@@ -50,6 +52,7 @@ export default {
   daySize: nonNegativeInteger,
   isRTL: PropTypes.bool,
   verticalHeight: nonNegativeInteger,
+  transitionDuration: nonNegativeInteger,
 
   // navigation related props
   navPrev: PropTypes.node,

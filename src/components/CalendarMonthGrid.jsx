@@ -50,10 +50,12 @@ const propTypes = forbidExtraProps({
   firstDayOfWeek: DayOfWeekShape,
   setCalendarMonthHeights: PropTypes.func,
   isRTL: PropTypes.bool,
+  transitionDuration: nonNegativeInteger,
 
   // i18n
   monthFormat: PropTypes.string,
   phrases: PropTypes.shape(getPhrasePropTypes(CalendarDayPhrases)),
+  dayAriaLabelFormat: PropTypes.string,
 });
 
 const defaultProps = {
@@ -77,6 +79,7 @@ const defaultProps = {
   firstDayOfWeek: null,
   setCalendarMonthHeights() {},
   isRTL: false,
+  transitionDuration: 200,
 
   // i18n
   monthFormat: 'MMMM YYYY', // english locale
@@ -165,11 +168,17 @@ class CalendarMonthGrid extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isAnimating, onMonthTransitionEnd, setCalendarMonthHeights } = this.props;
+    const {
+      isAnimating,
+      transitionDuration,
+      onMonthTransitionEnd,
+      setCalendarMonthHeights,
+    } = this.props;
 
     // For IE9, immediately call onMonthTransitionEnd instead of
-    // waiting for the animation to complete
-    if (!this.isTransitionEndSupported && isAnimating) {
+    // waiting for the animation to complete. Similarly, if transitionDuration
+    // is set to 0, also immediately invoke the onMonthTransitionEnd callback
+    if ((!this.isTransitionEndSupported || !transitionDuration) && isAnimating) {
       onMonthTransitionEnd();
     }
 
@@ -230,6 +239,8 @@ class CalendarMonthGrid extends React.Component {
       isRTL,
       styles,
       phrases,
+      dayAriaLabelFormat,
+      transitionDuration,
     } = this.props;
 
     const { months } = this.state;
@@ -251,8 +262,8 @@ class CalendarMonthGrid extends React.Component {
           isVertical && styles.CalendarMonthGrid__vertical,
           isVerticalScrollable && styles.CalendarMonthGrid__vertical_scrollable,
           isAnimating && styles.CalendarMonthGrid__animating,
-          isAnimating && {
-            transition: 'transform 0.2s ease-in-out',
+          isAnimating && transitionDuration && {
+            transition: `transform ${transitionDuration}ms ease-in-out`,
           },
           {
             ...getTransformStyles(transformValue),
@@ -306,6 +317,7 @@ class CalendarMonthGrid extends React.Component {
                 isFocused={isFocused}
                 phrases={phrases}
                 setMonthHeight={(height) => { this.setMonthHeight(height, i); }}
+                dayAriaLabelFormat={dayAriaLabelFormat}
               />
             </div>
           );
