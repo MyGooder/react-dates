@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { forbidExtraProps } from 'airbnb-prop-types';
+import { forbidExtraProps, nonNegativeInteger } from 'airbnb-prop-types';
 import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
 
 import { SingleDatePickerInputPhrases } from '../defaultPhrases';
@@ -36,6 +36,8 @@ const propTypes = forbidExtraProps({
   isRTL: PropTypes.bool,
   noBorder: PropTypes.bool,
   block: PropTypes.bool,
+  small: PropTypes.bool,
+  verticalSpacing: nonNegativeInteger,
 
   onChange: PropTypes.func,
   onClearDate: PropTypes.func,
@@ -68,6 +70,7 @@ const defaultProps = {
   isRTL: false,
   noBorder: false,
   block: false,
+  verticalSpacing: undefined,
 
   onChange() {},
   onClearDate() {},
@@ -109,13 +112,20 @@ function SingleDatePickerInput({
   isRTL,
   noBorder,
   block,
+  small,
+  verticalSpacing,
   styles,
 }) {
   const calendarIcon = customInputIcon || (
     <CalendarIcon {...css(styles.SingleDatePickerInput_calendarIcon_svg)} />
   );
   const closeIcon = customCloseIcon || (
-    <CloseButton {...css(styles.SingleDatePickerInput_clearDate_svg)} />
+    <CloseButton
+      {...css(
+        styles.SingleDatePickerInput_clearDate_svg,
+        styles.SingleDatePickerInput_clearDate_svg__small,
+      )}
+    />
   );
 
   const screenReaderText = screenReaderMessage || phrases.keyboardNavigationInstructions;
@@ -162,12 +172,15 @@ function SingleDatePickerInput({
         onKeyDownArrowDown={onKeyDownArrowDown}
         onKeyDownQuestionMark={onKeyDownQuestionMark}
         openDirection={openDirection}
+        verticalSpacing={verticalSpacing}
+        small={small}
       />
 
       {showClearDate && (
         <button
           {...css(
             styles.SingleDatePickerInput_clearDate,
+            small && styles.SingleDatePickerInput_clearDate__small,
             !customCloseIcon && styles.SingleDatePickerInput_clearDate__default,
             !displayValue && styles.SingleDatePickerInput_clearDate__hide,
           )}
@@ -246,6 +259,10 @@ export default withStyles(({ reactDates: { color } }) => ({
     },
   },
 
+  SingleDatePickerInput_clearDate__small: {
+    padding: 6,
+  },
+
   SingleDatePickerInput_clearDate__hide: {
     visibility: 'hidden',
   },
@@ -255,6 +272,10 @@ export default withStyles(({ reactDates: { color } }) => ({
     height: 12,
     width: 15,
     verticalAlign: 'middle',
+  },
+
+  SingleDatePickerInput_clearDate_svg__small: {
+    height: 9,
   },
 
   SingleDatePickerInput_calendarIcon: {

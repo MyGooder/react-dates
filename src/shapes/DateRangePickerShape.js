@@ -40,6 +40,7 @@ export default {
   customCloseIcon: PropTypes.node,
   noBorder: PropTypes.bool,
   block: PropTypes.bool,
+  small: PropTypes.bool,
 
   // calendar presentation and interaction related props
   renderMonth: PropTypes.func,
@@ -60,6 +61,7 @@ export default {
   hideKeyboardShortcutsPanel: PropTypes.bool,
   verticalHeight: nonNegativeInteger,
   transitionDuration: nonNegativeInteger,
+  verticalSpacing: nonNegativeInteger,
 
   // navigation related props
   navPrev: PropTypes.node,
@@ -68,7 +70,8 @@ export default {
   onNextMonthClick: PropTypes.func,
 
   // day presentation and interaction related props
-  renderDay: PropTypes.func,
+  renderCalendarDay: PropTypes.func,
+  renderDayContents: PropTypes.func,
   minimumNights: PropTypes.number,
   enableOutsideDays: PropTypes.bool,
   isDayBlocked: PropTypes.func,

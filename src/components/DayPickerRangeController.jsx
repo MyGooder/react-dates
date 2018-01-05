@@ -67,7 +67,8 @@ const propTypes = forbidExtraProps({
   onPrevMonthClick: PropTypes.func,
   onNextMonthClick: PropTypes.func,
   onOutsideClick: PropTypes.func,
-  renderDay: PropTypes.func,
+  renderCalendarDay: PropTypes.func,
+  renderDayContents: PropTypes.func,
   renderCalendarInfo: PropTypes.func,
   firstDayOfWeek: DayOfWeekShape,
   verticalHeight: nonNegativeInteger,
@@ -119,7 +120,8 @@ const defaultProps = {
   onNextMonthClick() {},
   onOutsideClick() {},
 
-  renderDay: null,
+  renderCalendarDay: undefined,
+  renderDayContents: null,
   renderCalendarInfo: null,
   firstDayOfWeek: null,
   verticalHeight: null,
@@ -413,11 +415,19 @@ export default class DayPickerRangeController extends React.Component {
   }
 
   onDayClick(day, e) {
-    const { keepOpenOnDateSelect, minimumNights, onBlur } = this.props;
+    const {
+      keepOpenOnDateSelect,
+      minimumNights,
+      onBlur,
+      focusedInput,
+      onFocusChange,
+      onClose,
+      onDatesChange,
+    } = this.props;
+
     if (e) e.preventDefault();
     if (this.isBlocked(day)) return;
 
-    const { focusedInput, onFocusChange, onClose } = this.props;
     let { startDate, endDate } = this.props;
 
     if (focusedInput === START_DATE) {
@@ -446,7 +456,7 @@ export default class DayPickerRangeController extends React.Component {
       }
     }
 
-    this.props.onDatesChange({ startDate, endDate });
+    onDatesChange({ startDate, endDate });
     onBlur();
   }
 
@@ -899,7 +909,8 @@ export default class DayPickerRangeController extends React.Component {
       hideKeyboardShortcutsPanel,
       daySize,
       focusedInput,
-      renderDay,
+      renderCalendarDay,
+      renderDayContents,
       renderCalendarInfo,
       onBlur,
       isFocused,
@@ -936,7 +947,8 @@ export default class DayPickerRangeController extends React.Component {
         onOutsideClick={onOutsideClick}
         navPrev={navPrev}
         navNext={navNext}
-        renderDay={renderDay}
+        renderCalendarDay={renderCalendarDay}
+        renderDayContents={renderDayContents}
         renderCalendarInfo={renderCalendarInfo}
         firstDayOfWeek={firstDayOfWeek}
         hideKeyboardShortcutsPanel={hideKeyboardShortcutsPanel}
